@@ -1,3 +1,6 @@
+v2.0.0:
+  * Removed unzip because it had a security vulnerability and I don't need it at the moment :-)
+
 v1.0.2:
   * Added default export bundling VERSION, zip and unzip to typescript declarations.
   * Fixed typo in README.md
