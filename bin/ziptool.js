@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const {VERSION, zip, unzip} = require('../src/index.js');
+const {VERSION, zip} = require('../src/index.js');
 
 // CLI Tool vars
 let proc = {
@@ -12,7 +12,7 @@ let proc = {
 const commands = {
   'help': () => {
     return `
-    ZIPTOOL CLI - Zip and unzip files from the command line.
+    ZIPTOOL CLI - Zip files from the command line.
 
     ----------
 
@@ -22,8 +22,6 @@ const commands = {
         -h, --help     => Prints this message.
         -z, --zip      => Zip all files from <source> to <destination>
                           (the last argument is considered the destination).
-        -u, --unzip    => Unzip a zip archive from <source> to the target directory <destination>
-                          (the last argument is considered the destination).
         -v, --version  => Prints ziptool version currently running.
         -o, --output   => Prefix the output file/directory (see example below).
 
@@ -32,13 +30,9 @@ const commands = {
     Example usage:
       - Creating a zip archive from one or more files:
           ziptool --zip file1.txt file2.png file3.wav -o archive.zip
-
-      - Extracting a zip archive to a directory:
-          ziptool --unzip archive.zip -o my/awesome/directory
     `;
   },
   'zip': zip,
-  'unzip': unzip,
   'version': () => {
     return `ziptool v${VERSION}`;
   }
@@ -58,7 +52,7 @@ const setProc = (command, params) => {
   let isValid;
   let message = '';
 
-  if (['zip', 'unzip'].indexOf(command) !== -1) {
+  if (['zip'].indexOf(command) !== -1) {
     let output = params.indexOf('-o');
 
     if (output === -1) output = params.indexOf('-o');
@@ -102,10 +96,8 @@ const setProc = (command, params) => {
 };
 
 const getProc = () => {
-  if (['zip', 'unzip'].indexOf(proc.command) !== -1) {
+  if (['zip'].indexOf(proc.command) !== -1) {
     let args = proc.args.slice(1);
-
-    if (proc.command === 'unzip') args = args[0];
 
     commands[proc.command](args, proc.args[0], (err) => {
       if (err) {

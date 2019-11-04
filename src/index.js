@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
-const {Extract} = require('unzip');
 
 /**
  * Current ziptool's version.
@@ -54,36 +53,9 @@ const zip = (src, dest, callback) => {
   archive.finalize();
 };
 
-/**
- * Extract a zip archive to a specified location.
- * @param {string} src - The zip archive filepath to be extracted.
- * @param {string} dest - The directory path to extract the zip archive to.
- * @param {ziptoolCallback} callback - The function to be called after the zip archive has
- * been extracted or if an error occured.
- */
-const unzip = (src, dest, callback) => {
-  // Create stream and extracter
-  const stream = fs.createReadStream(src);
-  const extract = Extract({path: dest});
-
-  // Read the src zip archive, extract it in the dest directory.
-  stream.pipe(extract);
-
-  // Error handler
-  extract.on('error', (err) => {
-    callback(err);
-  });
-
-  // Success handler
-  extract.on('close', () => {
-    callback(null);
-  });
-};
-
 // Exports
 exports.VERSION = VERSION;
 exports.zip = zip;
-exports.unzip = unzip;
 
 // Define types and stuffs
 /**
